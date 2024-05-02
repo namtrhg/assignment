@@ -15,16 +15,16 @@ export default function Home() {
 	const [currentAmount, setCurrentAmount] = useState<number>(0);
 
 	return (
-		<main className="flex justify-center pt-4 bg-purple-200 h-screen">
-			<Card className="w-[48.75rem] h-[25.625rem] p-6 space-y-6">
+		<main className="flex justify-center pt-4 bg-purple-200 lg:h-screen">
+			<Card className="w-full lg:w-[48.75rem] h-full lg:h-[25.625rem] p-6 space-y-6">
 				<div className="flex justify-between items-center">
 					<p className="text-primary text-xl font-semibold leading-[1.375rem]">
 						Send to
 					</p>
 					<img className="p-1" src="/svg/delete-icon.svg" alt="delete-icon" />
 				</div>
-				<div className="flex space-x-8">
-					<div className="w-[23.75rem]">
+				<div className="flex flex-col lg:flex-row lg:space-x-8">
+					<div className="w-full lg:w-[23.75rem]">
 						<p className="text-xs font-light leading-3 text-disabled pt-1">
 							To
 						</p>
@@ -36,7 +36,7 @@ export default function Home() {
 										: "Paste, scan or select recipient"
 								}
 								children={
-									<div className="space-y-2 w-[20rem]">
+									<div className="space-y-2 lg:w-[20rem]">
 										{users.map((user) => {
 											return (
 												<div
@@ -77,7 +77,7 @@ export default function Home() {
 						<p className="text-xs font-light leading-3 text-disabled mt-6">
 							Token & Amount
 						</p>
-						<div className="flex space-x-2 items-center mt-2.5">
+						<div className="flex flex-col lg:flex-row space-y-4 lg:space-y-0 lg:space-x-2 items-center mt-2.5">
 							<DropDown
 								text={
 									<div className="flex space-x-2 items-center">
@@ -93,7 +93,7 @@ export default function Home() {
 										</p>
 									</div>
 								}
-								className="w-[8.875rem]"
+								className="w-[20.438rem] lg:w-[8.875rem]"
 								type="primary"
 								children={
 									<div className="space-y-2">
@@ -125,14 +125,16 @@ export default function Home() {
 									</div>
 								}
 							/>
-							<div className="flex justify-end items-center bg-[#FBFAFB] rounded-2xl w-[14.375rem] h-[3.25rem] px-4">
+							<div className="flex justify-end items-center bg-[#FBFAFB] rounded-2xl w-full lg:w-[14.375rem] h-[3.25rem] px-4">
 								<input
 									type="number"
-									className="bg-[#FBFAFB] rounded-2xl text-right font-light text-sm leading-[1.125rem] py-4 focus:outline-none focus-visible:outline-none"
+									className="bg-[#FBFAFB] rounded-2xl text-right font-light text-sm leading-[1.125rem] py-4 focus:outline-none focus-visible:outline-none px-4"
 									placeholder="0.0"
 									onChange={(e) => setCurrentAmount(Number(e.target.value))}
 								/>
-								<p className="text-[0.625rem] leading-3 text-disabled">$0.0</p>
+								<p className="text-[0.625rem] leading-3 text-disabled">
+									${(currentAmount * currentCrypto.value).toFixed(1)}
+								</p>
 							</div>
 						</div>
 						<div className="flex space-x-1 items-center mt-2 justify-end">
@@ -144,14 +146,14 @@ export default function Home() {
 							</p>
 						</div>
 						<Button
-							className="mt-6 w-full h-[3.25rem]"
+							className="mt-6 w-full h-[3.25rem] hidden lg:block"
 							size="md"
 							type={currentAmount ? "primary" : "disabled"}
 						>
 							Send
 						</Button>
 					</div>
-					<div className="w-[23.75rem] border border-[#F5F4F7] p-6 rounded-3xl">
+					<div className="w-full lg:w-[23.75rem] border border-[#F5F4F7] p-6 rounded-3xl mt-2 lg:mt-0">
 						<p className="text-primary font-semibold text-base leading-[1.125rem] pt-0.5">
 							Summary
 						</p>
@@ -220,9 +222,16 @@ export default function Home() {
 							</div>
 						</div>
 						<p className="text-disabled text-[0.625rem] leading-3 text-right mt-2">
-							$0.0 USD
+							${(currentAmount * currentCrypto.value).toFixed(1)} USD
 						</p>
 					</div>
+					<Button
+						className="mt-6 w-full h-[3.25rem] block lg:hidden"
+						size="md"
+						type={currentAmount ? "primary" : "disabled"}
+					>
+						Send
+					</Button>
 				</div>
 			</Card>
 		</main>

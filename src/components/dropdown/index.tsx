@@ -53,7 +53,7 @@ export const DropDown: React.FC<IDropDown> = ({
 				size="md"
 				className={classNames(
 					className,
-					"text-disabled text-sm leading-[1.125rem] font-light !p-4 rounded-2xl flex justify-between items-center h-[3.25rem] w-[20rem]",
+					"text-disabled text-sm leading-[1.125rem] font-light !p-4 rounded-2xl flex justify-between items-center h-[3.25rem] w-[17rem] lg:w-[20rem]",
 					type === "default" ? "bg-[#FBFAFB]" : "bg-primary",
 				)}
 				onClick={handleClickDropDown}
@@ -74,7 +74,7 @@ export const DropDown: React.FC<IDropDown> = ({
 			<div onClick={handleClickDropDown}>
 				<Card
 					className={classNames(
-						"absolute py-4 px-3 top-[115%] min-w-[16.25rem] max-w-[20rem] z-10",
+						"absolute py-4 px-3 top-[115%] w-full lg:min-w-[16.25rem] max-w-[20rem] z-10",
 						isShow ? "block" : "hidden",
 					)}
 				>
