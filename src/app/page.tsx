@@ -1,12 +1,19 @@
+"use client";
+
 import Button from "@/components/button";
 import { Card } from "@/components/card";
 import { Chip } from "@/components/chip";
 import { DropDown } from "@/components/dropdown";
-import { cryptos } from "@/data/cryptos";
-import { users } from "@/data/users";
+import { cryptos, ICrypto } from "@/data/cryptos";
+import { IUser, users } from "@/data/users";
 import Image from "next/image";
+import { useState } from "react";
 
 export default function Home() {
+	const [currentReceiver, setCurrentReceiver] = useState<IUser | null>(null);
+	const [currentCrypto, setCurrentCrypto] = useState<ICrypto>(cryptos[0]);
+	const [currentAmount, setCurrentAmount] = useState<number>(0);
+
 	return (
 		<main className="flex justify-center pt-4 bg-purple-200 h-screen">
 			<Card className="w-[48.75rem] h-[25.625rem] p-6 space-y-6">
@@ -23,13 +30,18 @@ export default function Home() {
 						</p>
 						<div className="flex space-x-2 items-center mt-2">
 							<DropDown
-								text="Paste, scan or select recipient"
+								text={
+									currentReceiver
+										? currentReceiver.name
+										: "Paste, scan or select recipient"
+								}
 								children={
 									<div className="space-y-2 w-[20rem]">
 										{users.map((user) => {
 											return (
 												<div
 													className="flex items-center space-x-4 py-2.5 px-3 hover:bg-[#F1F1FF] cursor-pointer rounded-2xl"
+													onClick={() => setCurrentReceiver(user)}
 													key={user.id}
 												>
 													<img
@@ -73,11 +85,11 @@ export default function Home() {
 											className="w-6 h-6"
 											width={24}
 											height={24}
-											src="/svg/eth-icon.svg"
-											alt="eth"
+											src={currentCrypto.image}
+											alt={currentCrypto.name}
 										/>
 										<p className="text-white font-semibold text-sm leading-4">
-											ETH
+											{currentCrypto.name}
 										</p>
 									</div>
 								}
@@ -89,6 +101,7 @@ export default function Home() {
 											return (
 												<div
 													className="flex justify-between items-center space-x-4 py-2.5 px-3 hover:bg-[#F1F1FF] cursor-pointer rounded-2xl"
+													onClick={() => setCurrentCrypto(crypto)}
 													key={crypto.id}
 												>
 													<div className="flex space-x-4 items-center">
@@ -115,8 +128,9 @@ export default function Home() {
 							<div className="flex justify-end items-center bg-[#FBFAFB] rounded-2xl w-[14.375rem] h-[3.25rem] px-4">
 								<input
 									type="number"
-									className="bg-[#FBFAFB] rounded-2xl text-right font-light text-sm leading-[1.125rem] py-4"
+									className="bg-[#FBFAFB] rounded-2xl text-right font-light text-sm leading-[1.125rem] py-4 focus:outline-none focus-visible:outline-none"
 									placeholder="0.0"
+									onChange={(e) => setCurrentAmount(Number(e.target.value))}
 								/>
 								<p className="text-[0.625rem] leading-3 text-disabled">$0.0</p>
 							</div>
@@ -132,7 +146,7 @@ export default function Home() {
 						<Button
 							className="mt-6 w-full h-[3.25rem]"
 							size="md"
-							type="disabled"
+							type={currentAmount ? "primary" : "disabled"}
 						>
 							Send
 						</Button>
@@ -157,11 +171,13 @@ export default function Home() {
 								To
 							</p>
 							<p className="text-primary text-sm font-light leading-[1.125rem]">
-								-
+								{currentReceiver ? currentReceiver.name : "-"}
 							</p>
 						</div>
 						<div className="flex space-x-2 items-center justify-end mt-2">
-							<p className="text-disabled text-[0.625rem] leading-3">@-</p>
+							<p className="text-disabled text-[0.625rem] leading-3">
+								{currentReceiver ? currentReceiver.account : "@-"}
+							</p>
 							<Image
 								className="w-4 h-4"
 								width={16}
@@ -183,7 +199,7 @@ export default function Home() {
 								Amount
 							</p>
 							<p className="text-primary text-sm font-light leading-[1.125rem]">
-								0.0 ETH
+								{currentAmount} {currentCrypto.name}
 							</p>
 						</div>
 						<div className="flex justify-between items-center mt-8">

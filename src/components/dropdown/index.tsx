@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import Button from "../button";
 import { Card } from "../card";
 import classNames from "classnames";
@@ -22,11 +20,35 @@ export const DropDown: React.FC<IDropDown> = ({
 	type = "default",
 }) => {
 	const [isShow, setIsShow] = useState<boolean>(false);
+	const dropdownRef = useRef<HTMLDivElement>(null);
+
 	const handleClickDropDown = () => {
 		setIsShow(!isShow);
 	};
+
+	const handleClickOutside = (event: MouseEvent) => {
+		if (
+			dropdownRef.current &&
+			!dropdownRef.current.contains(event.target as Node)
+		) {
+			setIsShow(false);
+		}
+	};
+
+	useEffect(() => {
+		if (isShow) {
+			document.addEventListener("click", handleClickOutside);
+		} else {
+			document.removeEventListener("click", handleClickOutside);
+		}
+
+		return () => {
+			document.removeEventListener("click", handleClickOutside);
+		};
+	}, [isShow]);
+
 	return (
-		<div className="relative" onBlur={() => setIsShow(false)}>
+		<div className="relative" ref={dropdownRef}>
 			<Button
 				size="md"
 				className={classNames(
@@ -49,14 +71,16 @@ export const DropDown: React.FC<IDropDown> = ({
 					alt="arrow icon"
 				/>
 			</Button>
-			<Card
-				className={classNames(
-					"absolute py-4 px-3 top-[115%] min-w-[16.25rem] max-w-[20rem] z-10",
-					isShow ? "block" : "hidden",
-				)}
-			>
-				{children}
-			</Card>
+			<div onClick={handleClickDropDown}>
+				<Card
+					className={classNames(
+						"absolute py-4 px-3 top-[115%] min-w-[16.25rem] max-w-[20rem] z-10",
+						isShow ? "block" : "hidden",
+					)}
+				>
+					{children}
+				</Card>
+			</div>
 		</div>
 	);
 };

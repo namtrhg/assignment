@@ -1,4 +1,4 @@
-interface ICrypto {
+export interface ICrypto {
 	id: string;
 	image: string;
 	name: string;
