@@ -1,5 +1,7 @@
 # Project Title: Reprun assignment
 
+## Completion Time: 7hrs.
+
 ## Description
 
 A simple trading token platform UI.
