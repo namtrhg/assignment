@@ -18,3 +18,20 @@ A simple trading token platform UI.
 
 ## Implementation Details
 This is a simple project so I think using NextJS and Tailwind is enough, there is no need for additional UI or state management library. The combination between React hooks, props and Tailwind styling provide everything I need for this assignment.
+
+## Running the Project
+### Install dependencies
+
+    yarn install
+
+### Run the development server
+
+    yarn dev
+
+### Build the project for production
+
+    yarn build
+
+### Start the production server
+
+    yarn start
